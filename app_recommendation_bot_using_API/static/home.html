@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - App Recommendation Bot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqB7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+        nav, footer {
+            background-color: #161617;
+        }
+        .nav-links a {
+            padding: 10px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+        .dark-mode .nav-links a:hover {
+            background-color: black;
+        }
+        .light-mode {
+            background-color: #F5F5F7;
+            color: black;
+        }
+        .light-mode nav, .light-mode footer {
+            background-color: white;
+            color: black;
+        }
+        .light-mode .nav-links a:hover {
+            background-color: gray;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    
+    <nav class="bg-[#161617] text-white p-4 shadow-md flex items-center justify-between w-full animate-fade-in">
+        <h1 class="text-xl font-semibold">About Us</h1>
+        <ul class="flex-1 flex justify-center space-x-12">
+            <li><a href="#" class="px-4 py-2 rounded-lg hover:bg-gray-700">Home</a></li>
+            <li><a href="../../../" class="px-4 py-2 rounded-lg hover:bg-gray-700">Search</a></li>
+            <li><a href="aboutus.html" class="px-4 py-2 rounded-lg hover:bg-gray-700">About Us</a></li>
+        </ul>
+        <button onclick="toggleTheme()" class="bg-gray-700 px-4 py-2 rounded-lg">
+            <i class="fa-solid fa-circle-half-stroke"></i>
+        </button>
+    </nav>
+
+    <section class="flex flex-col items-center justify-center flex-grow text-center px-6">
+        <h1 class="text-5xl md:text-6xl font-bold opacity-0" id="main-heading">Discover the Best Apps for You</h1>
+        <p class="text-lg md:text-xl text-gray-400 mt-4 opacity-0" id="sub-text">Find the perfect app with AI-driven recommendations.</p>
+        
+        <a href="../../" class="mt-8 px-6 py-3 text-lg font-semibold bg-blue-500 hover:bg-blue-600 transition transform hover:scale-105 rounded-lg shadow-md opacity-0" id="cta-button">
+            Get Started
+        </a>
+    </section>
+<br>
+    <footer class="text-white text-center p-4 mt-auto">
+        &copy; 2025 Aditya Kumar. All Rights Reserved.
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const nav = document.querySelector("nav");
+            const footer = document.querySelector("footer");
+            const themeIcon = document.getElementById("theme-icon");
+
+            body.classList.toggle("light-mode");
+
+            if (body.classList.contains("light-mode")) {
+                themeIcon.classList.replace("fa-moon", "fa-sun");
+                nav.style.backgroundColor = "white";
+                nav.style.color = "black";
+                footer.style.backgroundColor = "white";
+                footer.style.color = "black";
+            } else {
+                themeIcon.classList.replace("fa-sun", "fa-moon");
+                nav.style.backgroundColor = "#161617";
+                nav.style.color = "white";
+                footer.style.backgroundColor = "#161617";
+                footer.style.color = "white";
+            }
+        }
+
+        gsap.to("#main-heading", { opacity: 1, y: -20, duration: 1, ease: "power3.out" });
+        gsap.to("#sub-text", { opacity: 1, y: -10, duration: 1, delay: 0.5 });
+        gsap.to("#cta-button", { opacity: 1, y: -5, duration: 1, delay: 1 });
+    </script>
+
+</body>
+</html>

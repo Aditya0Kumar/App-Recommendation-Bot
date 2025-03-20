@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Recommendation Bot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqB7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+        nav, footer {
+            background-color: #161617;
+        }
+        .nav-links a {
+            padding: 10px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+        .dark-mode .nav-links a:hover {
+            background-color: black;
+        }
+        .light-mode {
+            background-color: #F5F5F7;
+            color: black;
+        }
+        .light-mode nav, .light-mode footer {
+            background-color: white;
+            color: black;
+        }
+        .light-mode .nav-links a:hover {
+            background-color: gray;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <nav class="bg-[#161617] text-white p-4 shadow-md flex items-center justify-between w-full animate-fade-in">
+        <h1 class="text-xl font-semibold">About Us</h1>
+        <ul class="flex-1 flex justify-center space-x-12">
+            <li><a href="home.html" class="px-4 py-2 rounded-lg hover:bg-gray-700">Home</a></li>
+            <li><a href="#" class="px-4 py-2 rounded-lg hover:bg-gray-700">Search</a></li>
+            <li><a href="aboutus.html" class="px-4 py-2 rounded-lg hover:bg-gray-700">About Us</a></li>
+        </ul>
+        <button onclick="toggleTheme()" class="bg-gray-700 px-4 py-2 rounded-lg">
+            <i class="fa-solid fa-circle-half-stroke"></i>
+        </button>
+    </nav>
+    
+    <div id="search-container" class="bg-[#161617] p-8 rounded-lg shadow-md w-11/12 max-w-4xl mx-auto mt-16 transition-all duration-500">
+        <h2 class="text-4xl font-bold text-white mb-6 text-center">Find Your App</h2>
+        <div class="flex items-center border border-gray-600 rounded-lg overflow-hidden w-full">
+            <input type="text" id="categoryInput" class="w-full p-4 text-lg outline-none bg-gray-700 text-white" placeholder="Enter category (fitness, productivity, finance)">
+            <button onclick="getRecommendations()" class="bg-blue-500 text-white px-6 py-4 text-lg transition hover:bg-blue-600">Search</button>
+        </div>
+    </div>
+    
+    <div id="results" class="w-full max-w-4xl mx-auto mt-20 flex flex-wrap justify-center gap-4"></div>
+    
+    <footer class="text-white text-center p-4 mt-auto">
+        &copy; 2025 Aditya Kumar. All Rights Reserved.
+    </footer>
+    
+    <script>
+        async function getRecommendations() {
+            const category = document.getElementById("categoryInput").value.trim().toLowerCase();
+            
+            const response = await fetch("apps.json");
+            const data = await response.json();
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = "";
+
+            if (data[category]) {
+                data[category].forEach(app => {
+                    const box = document.createElement("div");
+                    box.classList.add("bg-gray-800", "p-4", "rounded-lg", "shadow-md", "flex", "flex-col", "items-center", "w-60", "transition", "hover:bg-gray-700");
+                    box.innerHTML = `
+                        <h3 class="text-lg font-semibold text-white">${app.name}</h3>
+                        <a href="${app.url}" target="_blank" class="mt-2 text-blue-400 hover:underline font-medium">View on Store</a>
+                    `;
+                    resultsDiv.appendChild(box);
+                });
+            } else {
+                resultsDiv.innerHTML = `<p class='text-red-500 text-center w-full'>Category not found. Try 'fitness', 'productivity', or 'finance'.</p>`;
+            }
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const nav = document.querySelector("nav");
+            const footer = document.querySelector("footer");
+            const themeIcon = document.getElementById("theme-icon");
+
+            body.classList.toggle("light-mode");
+
+            if (body.classList.contains("light-mode")) {
+                themeIcon.classList.replace("fa-moon", "fa-sun");
+                nav.style.backgroundColor = "white";
+                nav.style.color = "black";
+                footer.style.backgroundColor = "white";
+                footer.style.color = "black";
+            } else {
+                themeIcon.classList.replace("fa-sun", "fa-moon");
+                nav.style.backgroundColor = "#161617";
+                nav.style.color = "white";
+                footer.style.backgroundColor = "#161617";
+                footer.style.color = "white";
+            }
+        }
+    </script>
+</body>
+</html>

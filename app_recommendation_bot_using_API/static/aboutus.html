@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqB7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+        nav, footer {
+            background-color: #161617;
+        }
+
+        .box{
+            background-color: #161617;
+        }
+        .nav-links a {
+            padding: 10px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+        .dark-mode .nav-links a:hover {
+            background-color: black;
+        }
+        .light-mode {
+            background-color: #F5F5F7;
+            color: black;
+        }
+        .light-mode nav, .light-mode footer , .light-mode .box{
+            background-color: white;
+            color: black;
+        }
+        .light-mode .nav-links a:hover {
+            background-color: gray;
+        }
+    </style>
+</head>
+<body class="text-white flex flex-col min-h-screen">
+    
+    <nav class="bg-[#161617] text-white p-4 shadow-md flex items-center justify-between w-full animate-fade-in">
+        <h1 class="text-xl font-semibold">About Us</h1>
+        <ul class="flex-1 flex justify-center space-x-12">
+            <li><a href="home.html" class="px-4 py-2 rounded-lg hover:bg-gray-700">Home</a></li>
+            <li><a href="../../../" class="px-4 py-2 rounded-lg hover:bg-gray-700">Search</a></li>
+            <li><a href="#" class="px-4 py-2 rounded-lg hover:bg-gray-700">About Us</a></li>
+        </ul>
+        <button onclick="toggleTheme()" class="bg-gray-700 px-4 py-2 rounded-lg">
+            <i class="fa-solid fa-circle-half-stroke"></i>
+        </button>
+    </nav>
+    
+
+    <div class="flex-grow flex items-center justify-center">
+        <div class="box p-8 rounded-lg shadow-md w-11/12 max-w-4xl text-center">
+            <h2 class="text-4xl font-bold mb-6">Who We Are</h2>
+            <p class="text-lg text-gray-400 mb-4">
+                Welcome to our App Recommendation platform! We aim to simplify app discovery by providing personalized recommendations based on your preferences.
+            </p>
+            <p class="text-lg text-gray-400 mb-4">
+                Our goal is to ensure that you find the best apps without wasting time searching through countless options. Whether you're looking for productivity tools, entertainment, or educational apps, we've got you covered!
+            </p>
+            
+            <h3 class="text-2xl font-bold mt-8 mb-4">About Aditya Kumar</h3>
+            <p class="text-lg text-gray-400">
+                Hi, I'm Aditya Kumar, the creator of this platform. As a coding enthusiast and a B.Tech student in Computer Science and Engineering, I have a passion for building innovative tech solutions that solve real-world problems.
+            </p>
+            <p class="text-lg text-gray-400 mt-2">
+                This project is part of my journey to enhance user experience in app discovery and recommendation using efficient search algorithms and APIs. Hope you find it useful!
+            </p>
+        </div>
+    </div>
+
+    
+    <br>
+    <footer class="bg-[#161617] text-white text-center p-4 mt-auto animate-fade-in">
+        &copy; 2025 Aditya Kumar. All Rights Reserved.
+    </footer>
+    
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const nav = document.querySelector("nav");
+            const footer = document.querySelector("footer");
+            const themeIcon = document.getElementById("theme-icon");
+
+            body.classList.toggle("light-mode");
+
+            if (body.classList.contains("light-mode")) {
+                themeIcon.classList.replace("fa-moon", "fa-sun");
+                nav.style.backgroundColor = "white";
+                box.style.backgroundColor = "white";
+                nav.style.color = "black";
+                box.style.color = "black";
+                footer.style.backgroundColor = "white";
+                footer.style.color = "black";
+            } else {
+                themeIcon.classList.replace("fa-sun", "fa-moon");
+                nav.style.backgroundColor = "#161617";
+                box.style.backgroundColor = "#161617";
+                nav.style.color = "white";
+                box.style.color = "white";
+                footer.style.backgroundColor = "#161617";
+                footer.style.color = "white";
+            }
+        }
+    </script>
+</body>
+</html>

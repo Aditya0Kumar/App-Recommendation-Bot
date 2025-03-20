@@ -3,69 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App Recommendation Search</title>
+    <title>App Recommendation Bot</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqB7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+        nav, footer {
+            background-color: #161617;
+        }
+        .nav-links a {
+            padding: 10px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+        .dark-mode .nav-links a:hover {
+            background-color: black;
+        }
+        .light-mode {
+            background-color: #F5F5F7;
+            color: black;
+        }
+        .light-mode nav, .light-mode footer {
+            background-color: white;
+            color: black;
+        }
+        .light-mode .nav-links a:hover {
+            background-color: gray;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 flex flex-col items-center p-6">
-    <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg text-center">
-        <h1 class="text-2xl font-semibold text-gray-700 mb-4">App Search</h1>
-
-        <!-- 🔹 Search & Filters -->
-        <div class="flex flex-col space-y-2 mb-4">
-            <input type="text" id="search-input" class="p-2 border rounded-lg" placeholder="Enter app name">
-
-            <button onclick="searchApp()" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Search</button>
+<body class="flex flex-col min-h-screen">
+    
+    <nav class="bg-[#161617] text-white p-4 shadow-md flex items-center justify-between w-full animate-fade-in">
+        <h1 class="text-xl font-semibold">About Us</h1>
+        <ul class="flex-1 flex justify-center space-x-12">
+            <li><a href="../static/home.html" class="px-4 py-2 rounded-lg hover:bg-gray-700">Home</a></li>
+            <li><a href="#" class="px-4 py-2 rounded-lg hover:bg-gray-700">Search</a></li>
+            <li><a href="../static/aboutus.html" class="px-4 py-2 rounded-lg hover:bg-gray-700">About Us</a></li>
+        </ul>
+        <button onclick="toggleTheme()" class="bg-gray-700 px-4 py-2 rounded-lg">
+            <i class="fa-solid fa-circle-half-stroke"></i>
+        </button>
+    </nav>
+    
+    <div id="search-container" class="bg-[#161617] p-8 rounded-lg shadow-md w-11/12 max-w-4xl mx-auto fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-500">
+        <h2 class="text-4xl font-bold text-white mb-6 text-center">Find Your App</h2>
+        <div class="flex items-center border border-gray-600 rounded-lg overflow-hidden w-full">
+            <input type="text" id="search-input" class="w-full p-4 text-lg outline-none bg-gray-700 text-white" placeholder="Enter app name" onkeypress="handleKeyPress(event)">
+            <button onclick="searchApp()" class="bg-blue-500 text-white px-6 py-4 text-lg transition hover:bg-blue-600">Search</button>
         </div>
     </div>
+    
+    <div id="results" class="w-full max-w-4xl mx-auto mt-6 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"></div>
+    
 
-    <!-- 🔹 Results -->
-    <div id="results" class="w-full max-w-2xl mt-6 space-y-4"></div>
-
-    <!-- 🔹 Dark Mode Toggle -->
-    <button onclick="toggleDarkMode()" class="absolute top-4 right-4 bg-black text-white px-3 py-1 rounded-lg"><i class="fa-solid fa-circle-half-stroke"></i></button>
-
+    <br>
+    <footer class="text-white text-center p-4 mt-auto">
+        &copy; 2025 Aditya Kumar. All Rights Reserved.
+    </footer>
+    
     <script>
-        async function searchApp() {
-            const query = document.getElementById("search-input").value;
-            if (!query) return;
-
-            const response = await fetch(`/search?q=${query}`);
-            const data = await response.json();
-
-            const resultsDiv = document.getElementById("results");
-            resultsDiv.innerHTML = "";
-
-            if (data.length === 0) {
-                resultsDiv.innerHTML = "<p class='text-red-500'>No results found.</p>";
-                return;
-            }
-
-            displayResults(data);
-        }
-
-        function displayResults(results) {
-            const resultsDiv = document.getElementById("results");
-
-            results.forEach(app => {
-                const box = document.createElement("div");
-                box.classList.add("flex", "items-center", "bg-white", "p-4", "rounded-lg", "shadow-md", "gap-4");
-                box.innerHTML = `
-                    <img src="${app.thumbnail}" alt="App Image" class="w-20 h-20 rounded-lg">
-                    <div class="text-left">
-                        <h3 class="text-lg font-semibold text-gray-800">${app.title}</h3>
-                        <p class="text-sm text-gray-600"><strong>Author:</strong> ${app.author}</p>
-                        <p class="text-sm text-yellow-500"><strong>Rating:</strong> ${app.rating} ⭐</p>
-                        <a href="${app.link}" target="_blank" class="text-blue-500 hover:underline font-medium">View on Store</a>
-                    </div>
-                `;
-                resultsDiv.appendChild(box);
+        function toggleTheme() {
+            document.body.classList.toggle("light-mode");
+            document.querySelectorAll(".nav-links a").forEach(link => {
+                if (document.body.classList.contains("light-mode")) {
+                    link.classList.remove("dark-mode");
+                } else {
+                    link.classList.add("dark-mode");
+                }
             });
         }
 
-        function toggleDarkMode() {
-            document.body.classList.toggle("bg-gray-900");
-            document.body.classList.toggle("text-black");
+        async function searchApp(){
+            const query = document.getElementById("search-input").value;
+            if (!query) return;
+            
+            const response = await fetch(`/search?q=${query}`);
+            const data = await response.json();
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = "";
+
+            if (data.length === 0){
+                resultsDiv.innerHTML = "<p class='text-red-500 text-center w-full'>No results found.</p>";
+                resetSearchBox();
+                return;
+            }
+            moveSearchBoxUp();
+            displayResults(data);
+        }
+
+        function displayResults(results){
+            const resultsDiv = document.getElementById("results");
+            
+            results.forEach((app, index) => {
+                const box = document.createElement("div");
+                box.classList.add("bg-gray-800", "p-4", "rounded-lg", "shadow-md", "flex", "flex-col", "items-center", "transition", "hover:bg-gray-700", "opacity-0");
+                box.innerHTML = `
+                    <img src="${app.thumbnail}" alt="App Image" class="w-20 h-20 rounded-lg mb-2">
+                    <h3 class="text-lg font-semibold text-white">${app.title}</h3>
+                    <p class="text-sm text-gray-400"><strong>Author:</strong> ${app.author}</p>
+                    <p class="text-sm text-yellow-500"><strong>Rating:</strong> ${app.rating} ⭐</p>
+                    <a href="${app.link}" target="_blank" class="mt-2 text-blue-400 hover:underline font-medium">View on Store</a>
+                `;
+                resultsDiv.appendChild(box);
+                gsap.to(box, { opacity: 1, y: 0, duration: 0.5, delay: index * 0.1 });
+            });
+        }
+
+        function handleKeyPress(event){
+            if (event.key === "Enter"){
+                searchApp();
+            }
+        }
+
+        function moveSearchBoxUp(){
+            const searchContainer = document.getElementById("search-container");
+            searchContainer.classList.remove("fixed", "top-1/2", "left-1/2", "transform", "-translate-x-1/2", "-translate-y-1/2");
+            searchContainer.classList.add("relative", "mt-6");
+        }
+
+        function resetSearchBox(){
+            const searchContainer = document.getElementById("search-container");
+            searchContainer.classList.add("fixed", "top-1/2", "left-1/2", "transform", "-translate-x-1/2", "-translate-y-1/2");
+            searchContainer.classList.remove("relative", "mt-6");
         }
     </script>
 </body>
