@@ -1,0 +1,32 @@
+{
+    "fitness": [
+        {"name": "Nike Training Club", "url": "https://play.google.com/store/apps/details?id=com.nike.ntc"},
+        {"name": "MyFitnessPal", "url": "https://play.google.com/store/apps/details?id=com.myfitnesspal.android"},
+        {"name": "Strava", "url": "https://play.google.com/store/apps/details?id=com.strava"},
+        {"name": "Google Fit", "url": "https://play.google.com/store/apps/details?id=com.google.android.apps.fitness"}
+    ],
+    "productivity": [
+        {"name": "Notion", "url": "https://play.google.com/store/apps/details?id=notion.id"},
+        {"name": "Todoist", "url": "https://play.google.com/store/apps/details?id=com.todoist"},
+        {"name": "Evernote", "url": "https://play.google.com/store/apps/details?id=com.evernote"},
+        {"name": "Trello", "url": "https://play.google.com/store/apps/details?id=com.trello"}
+    ],
+    "finance": [
+        {"name": "Mint", "url": "https://play.google.com/store/apps/details?id=com.mint"},
+        {"name": "YNAB", "url": "https://play.google.com/store/apps/details?id=com.youneedabudget"},
+        {"name": "Wallet", "url": "https://play.google.com/store/apps/details?id=com.droid4you.application.wallet"},
+        {"name": "PayPal", "url": "https://play.google.com/store/apps/details?id=com.paypal.android.p2pmobile"}
+    ],
+    "games": [
+        {"name": "PUBG Mobile", "url": "https://play.google.com/store/apps/details?id=com.tencent.ig"},
+        {"name": "Among Us", "url": "https://play.google.com/store/apps/details?id=com.innersloth.spacemafia"},
+        {"name": "Genshin Impact", "url": "https://play.google.com/store/apps/details?id=com.miHoYo.GenshinImpact"},
+        {"name": "Clash of Clans", "url": "https://play.google.com/store/apps/details?id=com.supercell.clashofclans"}
+    ],
+    "education": [
+        {"name": "Khan Academy", "url": "https://play.google.com/store/apps/details?id=org.khanacademy.android"},
+        {"name": "Duolingo", "url": "https://play.google.com/store/apps/details?id=com.duolingo"},
+        {"name": "Coursera", "url": "https://play.google.com/store/apps/details?id=org.coursera.android"},
+        {"name": "Udemy", "url": "https://play.google.com/store/apps/details?id=com.udemy.android"}
+    ]
+}

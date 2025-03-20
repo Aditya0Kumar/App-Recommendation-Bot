@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Recommendation Bot</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        input { padding: 10px; width: 300px; }
+        button { padding: 10px 15px; margin-left: 10px; cursor: pointer; }
+        ul { list-style: none; padding: 0; }
+        li { margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>App Recommendation Bot</h1>
+    <input type="text" id="categoryInput" placeholder="Enter category (fitness, productivity, finance)">
+    <button onclick="getRecommendations()">Get Recommendations</button>
+    
+    <h2>Recommended Apps</h2>
+    <ul id="appList"></ul>
+
+    <script>
+        async function getRecommendations() {
+            const category = document.getElementById("categoryInput").value.trim().toLowerCase();
+            
+            // Fetch apps from JSON file
+            const response = await fetch("apps.json");
+            const data = await response.json();
+
+            const appList = document.getElementById("appList");
+            appList.innerHTML = "";  // Clear previous results
+
+            if (data[category]) {
+                data[category].forEach(app => {
+                    const li = document.createElement("li");
+                    li.innerHTML = `<a href="${app.url}" target="_blank">${app.name}</a>`;
+                    appList.appendChild(li);
+                });
+            } else {
+                appList.innerHTML = `<li style="color: red;">Category not found. Try 'fitness', 'productivity', or 'finance'.</li>`;
+            }
+        }
+    </script>
+</body>
+</html>
