@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>App Recommendation Bot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+    }
+    nav, footer {
+      background-color: #161617;
+    }
+    .nav-links a {
+      padding: 10px;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+    .dark-mode .nav-links a:hover {
+      background-color: black;
+    }
+
+    /* Light mode styles */
+    .light-mode {
+      background-color: #F5F5F7;
+      color: black;
+    }
+    .light-mode nav,
+    .light-mode footer {
+      background-color: white;
+      color: black;
+    }
+    .light-mode .nav-links a {
+      color: black;
+    }
+    .light-mode .nav-links a:hover {
+      background-color: gray;
+    }
+
+    /* Override for white heading and button text */
+    #search-heading,
+    #search-button {
+      color: white !important;
+    }
+
+    /* Light mode result cards */
+    .light-mode .bg-gray-800 {
+      background-color: white !important;
+      color: black !important;
+    }
+    .light-mode .hover\\:bg-gray-700:hover {
+      background-color: #ccc !important;
+    }
+
+    .rotate-180 {
+      transform: rotate(180deg);
+      transition: transform 0.3s ease;
+    }
+    .rotate-0 {
+      transform: rotate(0deg);
+      transition: transform 0.3s ease;
+    }
+
+    input::placeholder {
+      color: #999;
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <!-- Navbar -->
+  <nav class="bg-[#161617] text-white p-4 shadow-md flex items-center justify-between w-full nav-links">
+    <h1 class="text-xl font-semibold">Search</h1>
+    <ul class="flex-1 flex justify-center space-x-12 nav-links">
+      <li><a href="../static/home.html" class="px-4 py-2 rounded-lg hover:bg-gray-700">Home</a></li>
+      <li><a href="#" class="px-4 py-2 rounded-lg hover:bg-gray-700">Search</a></li>
+      <li><a href="../static/aboutus.html" class="px-4 py-2 rounded-lg hover:bg-gray-700">About Us</a></li>
+    </ul>
+    <button onclick="toggleTheme()" class="p-2 text-xl">
+      <i id="theme-icon" class="fa-solid fa-circle-half-stroke rotate-0"></i>
+    </button>
+  </nav>
+
+  <!-- Search Box -->
+  <div id="search-container" class="bg-[#161617] p-8 rounded-lg shadow-md w-11/12 max-w-4xl mx-auto fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-500">
+    <h2 id="search-heading" class="text-4xl font-bold mb-6 text-center">Find Your App</h2>
+    <div class="flex items-center border border-gray-600 rounded-lg overflow-hidden w-full">
+      <input type="text" id="search-input" class="w-full p-4 text-lg outline-none bg-white text-black" placeholder="Enter app name" onkeypress="handleKeyPress(event)">
+      <button id="search-button" onclick="searchApp()" class="bg-blue-500 px-6 py-4 text-lg transition hover:bg-blue-600">Search</button>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div id="results" class="w-full max-w-4xl mx-auto mt-6 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-4"></div>
+
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      const icon = document.getElementById("theme-icon");
+
+      body.classList.toggle("light-mode");
+      icon.classList.toggle("rotate-180");
+      icon.classList.toggle("rotate-0");
+    }
+
+    async function searchApp() {
+      const query = document.getElementById("search-input").value;
+      if (!query) return;
+
+      const response = await fetch(`/search?q=${query}`);
+      const data = await response.json();
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = "";
+
+      if (data.length === 0) {
+        resultsDiv.innerHTML = "<p class='text-red-500 text-center w-full'>No results found.</p>";
+        resetSearchBox();
+        return;
+      }
+
+      moveSearchBoxUp();
+      displayResults(data);
+    }
+
+    function displayResults(results) {
+      const resultsDiv = document.getElementById("results");
+
+      results.forEach((app, index) => {
+        const box = document.createElement("div");
+        box.classList.add("bg-gray-800", "p-4", "rounded-lg", "shadow-md", "flex", "flex-col", "items-center", "transition", "hover:bg-gray-700", "opacity-0");
+        box.innerHTML = `
+          <img src="${app.thumbnail}" alt="App Image" class="w-20 h-20 rounded-lg mb-2">
+          <h3 class="text-lg font-semibold text-red-600">${app.title}</h3>
+          <p class="text-sm text-gray-400"><strong>Author:</strong> ${app.author}</p>
+          <p class="text-sm text-yellow-500"><strong>Rating:</strong> ${app.rating} ⭐</p>
+          <a href="${app.link}" target="_blank" class="mt-2 text-blue-400 hover:underline font-medium">View on Store</a>
+        `;
+        resultsDiv.appendChild(box);
+        gsap.to(box, { opacity: 1, y: 0, duration: 0.5, delay: index * 0.1 });
+      });
+    }
+
+    function handleKeyPress(event) {
+      if (event.key === "Enter") {
+        searchApp();
+      }
+    }
+
+    function moveSearchBoxUp() {
+      const searchContainer = document.getElementById("search-container");
+      searchContainer.classList.remove("fixed", "top-1/2", "left-1/2", "transform", "-translate-x-1/2", "-translate-y-1/2");
+      searchContainer.classList.add("relative", "mt-6");
+    }
+
+    function resetSearchBox() {
+      const searchContainer = document.getElementById("search-container");
+      searchContainer.classList.add("fixed", "top-1/2", "left-1/2", "transform", "-translate-x-1/2", "-translate-y-1/2");
+      searchContainer.classList.remove("relative", "mt-6");
+    }
+  </script>
+</body>
+</html>
