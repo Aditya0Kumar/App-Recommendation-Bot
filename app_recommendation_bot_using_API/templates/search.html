@@ -12,19 +12,22 @@
       background-color: black;
       color: white;
     }
+
     nav, footer {
       background-color: #161617;
     }
+
     .nav-links a {
       padding: 10px;
       border-radius: 6px;
       transition: background-color 0.3s ease;
     }
+
     .dark-mode .nav-links a:hover {
       background-color: black;
     }
+    
 
-    /* Light mode styles */
     .light-mode {
       background-color: #F5F5F7;
       color: black;
@@ -34,24 +37,24 @@
       background-color: white;
       color: black;
     }
+
     .light-mode .nav-links a {
       color: black;
     }
     .light-mode .nav-links a:hover {
       background-color: gray;
     }
-
-    /* Override for white heading and button text */
-    #search-heading,
-    #search-button {
+    
+    #search-heading, #search-button{
       color: white !important;
     }
-
-    /* Light mode result cards */
+    
     .light-mode .bg-gray-800 {
       background-color: white !important;
       color: black !important;
     }
+
+
     .light-mode .hover\\:bg-gray-700:hover {
       background-color: #ccc !important;
     }
@@ -60,12 +63,13 @@
       transform: rotate(180deg);
       transition: transform 0.3s ease;
     }
-    .rotate-0 {
+
+    .rotate-0{
       transform: rotate(0deg);
       transition: transform 0.3s ease;
     }
 
-    input::placeholder {
+    input::placeholder{
       color: #999;
     }
   </style>
@@ -74,7 +78,7 @@
 
   <!-- Navbar -->
   <nav class="bg-[#161617] text-white p-4 shadow-md flex items-center justify-between w-full nav-links">
-    <h1 class="text-xl font-semibold">Search</h1>
+    <h1 class="text-xl font-semibold">App Recommendation Bot</h1>
     <ul class="flex-1 flex justify-center space-x-12 nav-links">
       <li><a href="../static/home.html" class="px-4 py-2 rounded-lg hover:bg-gray-700">Home</a></li>
       <li><a href="#" class="px-4 py-2 rounded-lg hover:bg-gray-700">Search</a></li>
@@ -132,6 +136,7 @@
       results.forEach((app, index) => {
         const box = document.createElement("div");
         box.classList.add("bg-gray-800", "p-4", "rounded-lg", "shadow-md", "flex", "flex-col", "items-center", "transition", "hover:bg-gray-700", "opacity-0");
+        
         box.innerHTML = `
           <img src="${app.thumbnail}" alt="App Image" class="w-20 h-20 rounded-lg mb-2">
           <h3 class="text-lg font-semibold text-red-600">${app.title}</h3>
@@ -139,6 +144,7 @@
           <p class="text-sm text-yellow-500"><strong>Rating:</strong> ${app.rating} ⭐</p>
           <a href="${app.link}" target="_blank" class="mt-2 text-blue-400 hover:underline font-medium">View on Store</a>
         `;
+        
         resultsDiv.appendChild(box);
         gsap.to(box, { opacity: 1, y: 0, duration: 0.5, delay: index * 0.1 });
       });
@@ -156,11 +162,14 @@
       searchContainer.classList.add("relative", "mt-6");
     }
 
-    function resetSearchBox() {
+    function resetSearchBox(){
       const searchContainer = document.getElementById("search-container");
       searchContainer.classList.add("fixed", "top-1/2", "left-1/2", "transform", "-translate-x-1/2", "-translate-y-1/2");
       searchContainer.classList.remove("relative", "mt-6");
     }
+
   </script>
+
+
 </body>
 </html>
